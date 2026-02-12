@@ -1,0 +1,38 @@
+- hosts: ec2_nodes
+  become: true
+
+  vars:
+    app_version: 1.0
+
+  tasks:
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Create custom index.html
+      vars:
+        db_version: 10
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Ansible Nginx Lab</title>
+          </head>
+          <body>
+              <h1>Hello from {{ ansible_hostname }}</h1>
+              <p><strong>IP Address:</strong> {{ ansible_default_ipv4.address }}</p>
+              <p><strong>App Version:</strong> {{ app_version }}</p>
+              <p><strong>DB Version:</strong> {{ db_version }}</p>
+          </body>
+          </html>
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: true
