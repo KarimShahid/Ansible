@@ -1,14 +1,16 @@
 ec2_nodes:
   hosts:
     ser001:
-      ansible_host: 13.222.110.240
+      ansible_host: 3.80.4.217
       ansible_port: 22
       ansible_user: ubuntu
+      site_title: "Production Server"
       ansible_ssh_private_key_file: ~/Downloads/awsKeyPair.pem
       ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
     ser002:
-      ansible_host: 98.81.137.38
+      ansible_host: 54.89.158.214
       ansible_port: 22
       ansible_user: ubuntu
+      site_title: "Development Server"
       ansible_ssh_private_key_file: ~/Downloads/awsKeyPair.pem
       ansible_ssh_common_args: '-o StrictHostKeyChecking=no'

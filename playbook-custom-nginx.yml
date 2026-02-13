@@ -5,14 +5,16 @@
 
   tasks:
 
-    - name: Update apt cache
+    - name: Update apt cache and Install Nginx
       apt:
         update_cache: yes
-
-    - name: Install nginx
-      apt:
         name: nginx
         state: present
+
+    # - name: Install nginx
+    #   apt:
+    #     name: nginx
+    #     state: present
 
     - name: Copy custom index.html
       copy:

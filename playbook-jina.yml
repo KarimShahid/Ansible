@@ -1,0 +1,41 @@
+- hosts: ec2_nodes
+  become: true
+
+  vars:
+    app_version: 1.0
+
+  tasks:
+
+    - name: Show inventory hostname
+      debug:
+        msg: "This host is {{ inventory_hostname }}"
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Deploy host-specific template
+      vars:
+        db_version: 10
+      template:
+        src: "index-{{ inventory_hostname }}.j2"
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+      notify: Restart nginx 
+
+    - name: Ensure nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: true
+
+  # Will restart nginx  
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
